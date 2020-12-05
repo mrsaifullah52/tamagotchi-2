@@ -1,0 +1,48 @@
+[
+  [
+{"Happy": 	"I ate Yummy Food."},
+{"Happy": 	"My favorite."},
+{"Happy": 	"I like it."},
+{"Happy": 	"thanks"},
+{"Happy": 	"Its joyful I want more"},
+{"Sad":	"Its Mini heart attack"},
+{"Sad": 	"It hurts me a lot"},
+{"Sad":	"I have no food to eat"},
+{"Sad":	"No one care about me"},
+{"Sad":	"Why this happens only with me?"},
+{"Angry":	"I will burn it"},
+{"Angry":	"Revenge!!"},
+{"Angry": 	"I can’t even taste it "},
+{"Angry": 	"I don’t like it. Take away."},
+{"Angry":	"I will eat u "},
+{"Jokey": 	"Mini heart attack"},
+{"Jokey": 	"I eat more. "},
+{"Jokey":	"I will eat it all."},
+{"Jokey": 	"I can do magic"},
+{"Jokey": 	"I want to eat extra ice cream"}
+  ],
+[
+  {"name":"apple","points":10,"poisning":0},
+  {"name":"Cake","points":10,"poisning":0},
+  {"name":"Candy","points":20,"poisning":-20},
+  {"name":"Carrot","points":15,"poisning":0},
+  {"name":"Chocolate","points":40,"poisning":-40},
+  {"name":"lollipop","points":30,"poisning":-30},
+  {"name":"Pet Food","points":20,"poisning":20},
+  {"name":"Recover Potion","points":40,"poisning":40},
+  {"name":"StrawBerry","points":15,"poisning":15},
+  {"name":"Watermellon","points":15,"poisning":15}
+],
+  [
+  {"type":"happy", "compliment":"Your smile is contagious."},
+  {"type":"happy", "compliment":"You're a candle in the darkness."},
+  {"type":"happy", "compliment":"Everything would be better if more people were like you."},
+  {"type":"angry", "compliment":"I’ve had enough of your lies. Just tell me the truth."},
+  {"type":"angry", "compliment":"Whenever you are around me I automatically fell 10 times Angry."},
+  {"type":"angry", "compliment":"You are mad."},
+  {"type":"sad", "compliment":"Don’t hang your head. You did the best you could."},
+  {"type":"sad", "compliment":"Your new dress is not fabulous."},
+  {"type":"sad", "compliment":"Hurts me a lot."},
+  {"type":"smile", "compliment":"Colors seem brighter when you're around."}
+  ]
+]
