@@ -3,15 +3,15 @@ class DigitalPet {
     // game data
     this.score = 0;
     this.username = "Unknown";
-    this.fooditems = ["apple", "Cake", "Candy", "Carrot", "Chocolate", "lollipop", "Pet Food", "Recover Potion", "StrawBerry", ""]
-    this.foodpoints = [10, 10, -20, 15, -40, -30, 20, 40, 15];
+    this.fooditems = ["apple", "Cake", "Candy", "Carrot", "Chocolate", "lollipop", "Pet Food", "Recover Potion", "StrawBerry", "watermelon"]
+    this.foodpoints = [10, 10, -20, 15, -40, -30, 20, 40, 15, 15];
     this.complimentArray = [];
     this.jsonData = [];
     this.GameScore(60, true);
     this.GamePlayerName();
     this.FetchApi();
 
-    this.reTime = 3;
+    // this.reTime = 3;
 
     // gsap timelines
     this.t1 = gsap.timeline({ repeat: 0, repeatDelay: 0 });
@@ -20,6 +20,8 @@ class DigitalPet {
     this.t4 = gsap.timeline({ repeat: 0, repeatDelay: 0 });
     this.t5 = gsap.timeline({ repeat: 0, repeatDelay: 0 });
     this.t6 = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+    this.talkLip = gsap.timeline({ repeat: 3, repeatDelay: 0 });
+    this.feed = gsap.timeline({ repeat: 0, repeatDelay: 0 })
   }
 
   // Main Functionalities
@@ -54,13 +56,7 @@ class DigitalPet {
     clearInterval(this.metabolism);
     console.log("GameEnd")
   }
-
-  SetFood() {
-    // this.FetchApi();
-    this.fooditems = this.jsonData[2];
-    console.log(this.jsonData)
-  }
-
+  // setting Food Points
   GameScore(gamescore = 60, gameStatus) {
     if (gameStatus) {
       this.score = this.score + gamescore;
@@ -76,6 +72,7 @@ class DigitalPet {
     }
 
   }
+  // setting player name
   GamePlayerName(gamePlayerName) {
     if (gamePlayerName != null) {
       this.username = gamename;
@@ -85,16 +82,15 @@ class DigitalPet {
     }
   }
 
-  // getters
+  // getting player name
   GetPlayerName(name) {
     gsap.timeline()
       .to("#before_starting_game", { display: "none", scale: 0.0, duration: 2 })
       .to("#game", { display: "block", duration: 1, });
-
     this.GamePlayerName(name);
-
   }
 
+  // activating compliment section
   GetCompliment() {
     gsap.to("#food_list", { display: "none", scale: 0.0, duration: 2 });
     gsap.to("#petEmotions", { display: "none", scale: 0.0, duration: 2 });
@@ -106,6 +102,7 @@ class DigitalPet {
     gsap.to("#getcomplimentBtns", { display: "inline-block", duration: 2, scale: 0.8 });
   }
 
+  // fetching data from json
   FetchApi() {
     fetch('/resources/javascript/data.json')
       .then((res) => res.json())
@@ -113,48 +110,39 @@ class DigitalPet {
         this.jsonData = data;
       })
       .catch(err => console.error(err));
-    console.log(this.jsonData, "json")
-    this.SetFood();
   }
-
-  GetComplimentFromPet = (type, count = 0) => {
+  // setting food items
+  SetFood() {
+    // this.fooditems = this.jsonData[1];
+    console.log(this.fooditems, "this.fooditems");
+  }
+  GetComplimentFromPet = (type, count = 2) => {
+    // face expressions
     this.Talking(type)
-
     // output text
     const output = document.querySelector("#compliments");
     const outputText = document.querySelector("#compliments .text");
-
+    let j = 0;
+    this.complimentArray = new Array();
     for (let i = 0; i < this.jsonData[count].length; i++) {
       if (this.jsonData[count][i].type == type) {
-        this.complimentArray[i] = this.jsonData[count][i].compliment;
-        // console.log(this.complimentArray[i])
+        this.complimentArray[j] = this.jsonData[count][i].compliment;
+        j++;
       }
     }
-
-    let textToDisplay = this.complimentArray[Math.floor(Math.random() * 5)];
-    textToDisplay = textToDisplay.split(' ');
+    let random = Math.floor(Math.random() * this.complimentArray.length);
+    let textToDisplay = this.complimentArray[random];
+    textToDisplay = textToDisplay.split(" ");
     outputText.innerText = this.username + "!! ";
     let displayWordTime = setInterval(() => {
       var word = textToDisplay.shift();
       if (word == null) {
         return clearInterval(displayWordTime);
       }
-      outputText.append(word + ' ');
+      outputText.append(word + " ");
     }, 300)
     gsap.from(output, { display: "inline-block", duration: 2, scale: 0.8 })
     gsap.to(output, { display: "inline-block", duration: 2, scale: 1 });
-
-    // javascript textreplace
-    // get that file through fetch
-    // these should be four moods when complimenting Pet
-    // put theme in array with assosiated array of tags:
-    // sad
-    // neutral
-    // jokey
-    // angry
-
-    // user click on sad button he will be getting sad prase and vice versa
-    // 1: show the emotion, 2: do the talk 3: then go back to neutral
   }
 
   PetMood() {
@@ -163,13 +151,16 @@ class DigitalPet {
     gsap.to("#food", { display: "none", scale: 0.0, duration: 2 });
     gsap.to("#arms_up", { display: "none", });
     gsap.to("#arms_down", { display: "inline-block", });
-    // gsap.from("#compliments", { display: "inline-block", duration: 2, scale: 0.8 })
-    // gsap.to("#compliments", { display: "inline-block", duration: 2, scale: 1 });
 
-    this.FetchApi();
-    let moods = ["happy", "angry", "jokey", "sad"];
-    // moods[Math.floor(Math.random() * 4)]
-    this.GetComplimentFromPet("happy", 0);
+    let moods = ["", "happy", "angry", "jokey", "sad"];
+    let random = Math.floor(Math.random() * 3);
+    let moodNum = "";
+    if (random != 0) {
+      moodNum = moods[random];
+    } else {
+      moodNum = "jokey";
+    }
+    this.GetComplimentFromPet(moodNum, 0);
   }
 
   PetFood = () => {
@@ -181,8 +172,6 @@ class DigitalPet {
 
     gsap.from("#food_list", { display: "inline-block", duration: 2, scale: 0.8 });
     gsap.to("#food_list", { display: "inline-block", duration: 2, scale: 0.8 });
-
-
   }
 
   FeedingPet(food) {
@@ -190,12 +179,14 @@ class DigitalPet {
       this.GameEnd();
     } else {
       if (this.foodpoints[food] < 0) {
-        this.Eating(food);
-        this.MakePetFaceSad();
+        this.Eating(food, "sad");
+        // this.MakePetFaceSad();
+
         this.GameScore(this.foodpoints[food], true);
       } else {
-        this.Eating(food);
-        this.MakePetFaceHappy();
+        this.Eating(food, "happy");
+
+        // this.MakePetFaceHappy();
         this.GameScore(this.foodpoints[food], true);
       }
     }
@@ -209,21 +200,58 @@ class DigitalPet {
     gsap.to("#arms_up", { display: "inline-block", });
 
     const food = Math.floor(Math.random() * 9);
-    if (this.score == 0) {
+    if (this.score <= 0) {
       this.GameEnd();
     } else {
       if (this.foodpoints[food] < 0) {
-        this.MakePetFaceSad();
+        // this.MakePetFaceSad();
         this.GameScore(this.foodpoints[food], true);
+        this.Eating(food, "sad");
       } else {
-        this.MakePetFaceHappy();
+        // this.MakePetFaceHappy();
         this.GameScore(this.foodpoints[food], true);
-        this.Eating(food);
+        this.Eating(food, "happy");
       }
     }
   }
 
-  Eating(food) {
+  Eating(food, face) {
+
+    console.log("EAting", food, " in ", face, " face");
+
+    this.t1.pause();
+    this.t2.pause();
+    this.t3.pause();
+    this.t4.pause();
+    this.t5.pause();
+    this.t6.pause();
+
+    // this.feed.delay(5);
+    this.feed.clear();
+    this.feed.restart();
+    this.feed.to("#angry", { duration: 0, display: "none" })
+      .to("#happy", { duration: 0, display: "none" })
+      .to("#sad", { duration: 0, display: "none" })
+      .to("#jokey", { duration: 0, display: "none" })
+      .to("#neutral", { duration: 0, display: "none" })
+      .to("#talking", { duration: 0, display: "none" })
+
+    if (face == "happy") {
+      this.feed.restart();
+      this.feed.from("#happy", { duration: 0.5, display: "inline-block", scale: 0.8 })
+        .to("#happy", { duration: 0.5, display: "inline-block", scale: 0.9 })
+        .to(".lips", { display: "none", duration: 0 });
+      this.feed.eventCallback("onComplete", this.TalkLipsing);
+
+    } else {
+      this.feed.restart();
+      this.feed.from("#sad", { duration: 0.5, display: "inline-block", scale: 0.8 })
+        .to("#sad", { duration: 0.5, display: "inline-block", scale: 0.9 })
+        .to(".lips", { display: "none", duration: 0 });
+      this.feed.eventCallback("onComplete", this.TalkLipsing);
+
+    }
+
     const output = document.querySelector("#food img");
     const t1 = gsap.timeline();
     const t2 = gsap.timeline({ repeat: 0 });
@@ -282,12 +310,14 @@ class DigitalPet {
     this.t5.pause();
     this.t6.pause();
 
+    this.t1.clear();
     this.t1.restart();
     this.t1.to("#sad", { duration: 0, display: "none" })
       .to("#angry", { duration: 0, display: "none" })
       .to("#neutral", { duration: 0, display: "none" })
       .to("#jokey", { duration: 0, display: "none" })
       .to("#talking", { duration: 0, display: "none" })
+      .to("#lips", { duration: 0, display: "inline-block" })
       .from("#happy", { duration: 1.5, display: "inline-block", scale: 0.8 })
       .to("#happy", { duration: 1.5, display: "inline-block", scale: 0.8 });
     if (type == "talking") {
@@ -303,12 +333,14 @@ class DigitalPet {
     this.t5.pause();
     this.t6.pause();
 
+    this.t2.clear();
     this.t2.restart();
     this.t2.to("#sad", { duration: 0, display: "none" })
       .to("#happy", { duration: 0, display: "none" })
       .to("#neutral", { duration: 0, display: "none" })
       .to("#jokey", { duration: 0, display: "none" })
       .to("#talking", { duration: 0, display: "none" })
+      .to("#lips", { duration: 0, display: "inline-block" })
       .from("#angry", { duration: 1.5, display: "inline-block", scale: 0.8 })
       .to("#angry", { duration: 1.5, display: "inline-block", scale: 0.8 });
 
@@ -326,12 +358,14 @@ class DigitalPet {
     this.t5.pause();
     this.t6.pause();
 
+    this.t3.clear();
     this.t3.restart();
     this.t3.to("#angry", { duration: 0, display: "none" })
       .to("#happy", { duration: 0, display: "none" })
       .to("#neutral", { duration: 0, display: "none" })
       .to("#jokey", { duration: 0, display: "none" })
       .to("#talking", { duration: 0, display: "none" })
+      .to("#lips", { duration: 0, display: "inline-block" })
       .from("#sad", { duration: 1.5, display: "inline-block", scale: 0.8 })
       .to("#sad", { duration: 1.5, display: "inline-block", scale: 0.8 });
     // .wait("+=1");
@@ -350,12 +384,14 @@ class DigitalPet {
     this.t5.pause();
     this.t6.pause();
 
+    this.t4.clear();
     this.t4.restart();
     this.t4.to("#angry", { duration: 0, display: "none" })
       .to("#happy", { duration: 0, display: "none" })
       .to("#neutral", { duration: 0, display: "none" })
       .to("#sad", { duration: 0, display: "none" })
       .to("#talking", { duration: 0, display: "none" })
+      .to("#lips", { duration: 0, display: "inline-block" })
       .from("#jokey", { duration: 1.5, display: "inline-block", scale: 0.8 })
       .to("#jokey", { duration: 1.5, display: "inline-block", scale: 0.8 });
 
@@ -371,14 +407,17 @@ class DigitalPet {
     this.t1.pause();
     this.t2.pause();
     this.t3.pause();
+    this.t4.pause();
     this.t6.pause();
 
+    this.t5.clear();
     this.t5.restart();
     this.t5.to("#angry", { duration: 0, display: "none" })
       .to("#happy", { duration: 0, display: "none" })
       .to("#sad", { duration: 0, display: "none" })
       .to("#jokey", { duration: 0, display: "none" })
       .to("#talking", { duration: 0, display: "none" })
+      .to("#lips", { duration: 0, display: "inline-block" })
 
       .from("#neutral", { duration: 1.5, display: "inline-block", scale: 0.8 })
       .to("#neutral", { duration: 1.5, display: "inline-block", scale: 0.9 });
@@ -406,7 +445,7 @@ class DigitalPet {
     this.t4.pause();
     this.t5.pause();
 
-    // this.t6.delay(5)
+    this.t6.clear();
     this.t6.restart();
     this.t6.to("#angry", { duration: 0, display: "none" })
       .to("#happy", { duration: 0, display: "none" })
@@ -447,12 +486,13 @@ class DigitalPet {
   }
 
   TalkLipsing() {
-    this.reTime = 3;
-    const tl = gsap.timeline({ repeat: this.reTime, repeatDelay: 0 });
-    tl.from(".talking_lips2", { duration: 0.6, display: "inline-block", transform: "scale(1,4)" })
+    // this.reTime = 3;
+
+    // const tl = gsap.timeline({ repeat: this.reTime, repeatDelay: 0 });
+    this.talkLip.from(".talking_lips2", { duration: 0.6, display: "inline-block", transform: "scale(1,4)" })
       .to(".talking_lips2", { duration: 0.6, display: "inline-block", transform: "scale(1,1)" });
-    tl.eventCallback("onComplete", this.MakePetFaceNeutral);
-    console.log("call back called")
+    this.talkLip.eventCallback("onComplete", this.MakePetFaceNeutral);
+    console.log("call back called");
   }
 
   // Health Points Management

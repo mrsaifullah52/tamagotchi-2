@@ -165,19 +165,22 @@ svg #angry {
   position: absolute;
   width: 300px;
   bottom: 30px;
-  left: 6%;
+  right: 6%;
 }
 
 #food_list .food_imgs {
   width: 100%;
-  display: grid;
-  grid-template-columns: auto auto auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* grid-template-columns: auto auto auto; */
 }
 
 #food_list .img {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 15px;
   padding: 5px;
+  margin: 2px;
 }
 
 #food_list .img:hover {
@@ -234,7 +237,7 @@ svg #angry {
   border-radius: 10px;
   position: absolute;
   width: 300px;
-  bottom: 30px;
+  bottom: 20%;
   left: 6%;
 }
 
@@ -258,6 +261,6 @@ svg #angry {
   border-radius: 10px;
   position: absolute;
   width: 300px;
-  bottom: 30px;
+  bottom: 20%;
   left: 6%;
 }
