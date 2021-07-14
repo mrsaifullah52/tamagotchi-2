@@ -5,11 +5,11 @@
 }
 
 body {
-  font-size: 18px;
-  background-image: url("/resources/imgs/background.svg");
+  background-image: url(resources/imgs/background.svg);
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
+  font-size: 18px;
 }
 
 svg {
@@ -23,10 +23,6 @@ svg {
 
 #arms_up {
   display: none;
-}
-
-#arms_down {
-  /* display: none; */
 }
 
 #eat {
@@ -47,20 +43,13 @@ svg {
   transform: scale(1.5) translate(-94px, -101px);
 }
 
-#neutral {
-  /* display: none; */
-}
-
 .talking_lips1 path:nth-child(1),
 .talking_lips1 path:nth-child(2),
 .talking_lips1 path:nth-child(3) {
   transform: scale(1.5) translate(-94px, -101px);
 }
 
-
 #before_starting_game {
-  display: none;
-
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
@@ -77,6 +66,7 @@ svg {
 
 #game_end {
   display: none;
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
@@ -128,7 +118,8 @@ svg {
   font-size: 1.5em;
 }
 
-/* #game, */
+#game,
+svg #crosses,
 svg #talking,
 svg #jokey,
 svg #sad,
@@ -155,10 +146,8 @@ svg #angry {
   font-size: 1.2em;
 }
 
-
 #food_list {
   display: none;
-
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 10px;
@@ -173,7 +162,6 @@ svg #angry {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  /* grid-template-columns: auto auto auto; */
 }
 
 #food_list .img {
@@ -231,7 +219,6 @@ svg #angry {
 
 #getcomplimentBtns {
   display: none;
-
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 10px;
@@ -243,7 +230,6 @@ svg #angry {
 
 #compliments {
   display: none;
-
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 10px;
@@ -255,7 +241,6 @@ svg #angry {
 
 #petEmotions {
   display: none;
-
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 10px;
